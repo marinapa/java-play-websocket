@@ -11,7 +11,7 @@ cmd : activator run.
 
 Application will be able on http://localhost:9000
 
-To storage of data is used PostgreSQL. Database stored on a remote server. DB schemas created automatically used Hibernate ORM. 
+PostgreSQL is used to storage user data. Database stored on a remote server. DB schemas created automatically used Hibernate ORM. 
 
 
 
