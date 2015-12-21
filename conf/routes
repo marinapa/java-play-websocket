@@ -1,0 +1,30 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET      /                                   @controllers.ResponseController.newResponse()
+
+GET      /responses                          @controllers.ResponseController.responses()
+
+GET      /fields/                            @controllers.FieldController.newField()
+
+POST     /responseCollecting                 @controllers.ResponseController.createResponse()
+
+POST     /field                              @controllers.FieldController.createField()
+
+GET     /fields                              @controllers.FieldController.fieldList()
+
+GET     /fields/:id                          @controllers.FieldController.edit(id:Integer)
+
+POST    /editField                           @controllers.FieldController.editField(id:Integer)
+
+DELETE  /:id                                 @controllers.FieldController.delete(id: Integer)
+
+GET     /count                               controllers.Application.socket()
+
+# Map static resources from the /public folder to the /assets URL path
+GET      /assets/js/routes          controllers.Application.jsRoutes()
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+    

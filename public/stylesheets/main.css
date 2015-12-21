@@ -1,0 +1,83 @@
+body {
+    padding: 60px 0 0;
+    margin: 0;
+}
+
+.center-content {
+    width: 40%;
+    padding: 60px 0 0;
+    margin: 0;
+    align-content: center;
+}
+
+.input-content {
+    float: left;
+    margin: 40px 70px;
+    width: 40%;
+}
+
+a {
+    color: #337ab7;
+}
+
+.nav > li > a {
+    display: block;
+    padding: 15px 10px 10px;
+    position: relative;
+}
+
+.container {
+    width: 100%;
+}
+
+.table-head {
+    background-color: #e3e3e3;
+}
+
+.invisible-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px
+    border-right: 1px solid;
+}
+
+.row {
+    margin-left: 0;
+    *zoom: 1;
+}
+.row:before,
+.row:after {
+    display: table;
+    content: "";
+}
+.row:after {
+    clear: both;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    display: table-cell;
+    line-height: normal;
+    margin: 0 0 0 -98px;
+}
+
+#parent{
+    overflow:hidden;
+    position:relative;
+    display:table;
+}
+.left{
+    display:table-cell;
+}
+.right {
+    width: 50px;
+}
+
+.ui-datepicker {
+    margin-left: 210px;
+    margin-top: auto;
+}
+
+
+
+
+

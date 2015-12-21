@@ -1,0 +1,84 @@
+@import java.util
+@(responseForm: Form[models.ResponseForm], dataFields: util.List[entities.Field], responseCount: Integer)
+
+@import helper._
+@implicitField = @{
+    FieldConstructor(fields.twoColumns.f)
+}
+
+@layouts.mainLayout("Create new Field", responseCount) {
+    <div class="input-content">
+    @helper.form(action = routes.ResponseController.createResponse(), 'id -> "responseFormNew") {
+
+        @for(field <- dataFields) {
+            @if(field.isAlive) {
+                @if(field.getType == Type.SINGLE_LINE_TEXT) {
+                    @inputText(responseForm(field.getLabel), args =
+                            '_label -> {if(field.isRequired) field.getLabel + "*" else field.getLabel},
+                        'size -> 50,
+                        'placeholder -> "",
+                        'class -> {if(field.isRequired) "required"},
+                        'id -> field.getId
+                    )
+                }
+                @if(field.getType == Type.CHECK_BOX) {
+                    @checkbox(field = responseForm(field.getLabel), args =
+                            '_label -> field.getLabel,
+                        'id -> field.getId
+                    )
+                }
+                @if(field.getType == Type.DATE) {
+                    @inputText(responseForm(field.getLabel), args =
+                            '_label -> {if(field.isRequired) field.getLabel + "*" else field.getLabel},
+                        'size -> 50,
+                        'placeholder -> "",
+                        'class -> {if(field.isRequired) "required"},
+                        'id -> field.getId
+                    )
+                    <script>
+                        $("#" + @field.getId).datepicker({
+                              showOn: 'button',
+                              buttonImage: '@routes.Assets.at("images/icon-datepicker.png")',
+                              buttonImageOnly: true,
+                              dateFormat: 'dd/mm/yy',
+                              firstDay: 1
+                        });
+                    </script>
+                }
+                @if(field.getType == Type.COMBO_BOX) {
+                    @select(responseForm(field.getLabel), options(field.itemMap()), args =
+                            '_default -> "- select option -",
+                        '_label -> field.getLabel,
+                        'class -> {if(field.isRequired) "required"},
+                        'id -> field.getId
+                    )
+                }
+                @if(field.getType == Type.MULTI_LINE_TEXT) {
+                    @textarea(responseForm(field.getLabel), args =
+                            '_label -> {if(field.isRequired) field.getLabel + "*" else field.getLabel},
+                        'placeholder -> "Any notes you want to add",
+                        'cols -> 1,
+                        'class -> {if(field.isRequired) "required"},
+                        'id -> field.getId
+                    )
+                }
+                @if(field.getType == Type.RADIO_BUTTON) {
+                    @inputRadioGroup(responseForm(field.getLabel), options = options(field.radioItemMap()), args =
+                            'checked -> "checked",
+                            'class -> {if(field.isRequired) "required"},
+                        'id -> field.getId
+                    )
+                }
+            }
+        }
+        <div class="row">
+            <div class="span8 offset2">
+                <input id="responseSubmit" type="submit" value="Submit" class="btn primary"/>
+                <input id="responseReset" type="button" value="Reset" onClick="this.form.reset()" class="btn primary"/>
+            </div>
+        </div>
+    }
+
+     </div>
+}
+

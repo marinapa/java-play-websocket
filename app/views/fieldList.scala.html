@@ -1,0 +1,40 @@
+@import java.util
+@import models.entities;
+@(dataFields: util.List[entities.Field], responseCount: Integer)
+
+@layouts.mainLayout("Fields", responseCount) {
+    <div class="container">
+        <th style="width:14px;"><a href="@routes.FieldController.newField()" title="Add field" class="btn">Add Field</a></th>
+        <table class="table table-striped table-bordered">
+            <thead class="table-head">
+                <tr>
+                    <th  style="min-width:10px; max-width:900px;width:auto; white-space:nowrap;">Label</th>
+                    <th style="width:104px;">Type</th>
+                    <th style="width:104px;">Required</th>
+                    <th style="width:104px;">Is Alive</th>
+                    <th style="width:104px;"></th>
+                    <th style="width:104px;"></th>
+                </tr>
+                <p id="demo"></p>
+            </thead>
+            <tbody>
+            @for(field <- dataFields){
+                <tr>
+                    <td width="15%">@field.getLabel</td>
+                    <td width="30%">@field.getType.getValue()</td>
+                    <td width="10%">
+                        @if(field.isRequired) {<input type="checkbox" disabled="disabled" checked="checked">
+                        } else{<input type="checkbox" disabled="disabled">}
+                    </td>
+                    <td width="10%">
+                        @if(field.isAlive) {<input type="checkbox" disabled="disabled" checked="checked">
+                        } else{<input type="checkbox" disabled="disabled">}
+                    </td>
+                    <td width="5%"><a href="@routes.FieldController.edit(field.getId)" title="Edit field">edit</a></td>
+                    <td width="7%"><a href="" data-id="@field.getId" class="deleteField">delete</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

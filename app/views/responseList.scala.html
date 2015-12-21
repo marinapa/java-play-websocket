@@ -1,0 +1,27 @@
+@import java.util
+
+@import models.entities
+@(fields: util.List[entities.Field], responses: util.List[entities.Response], map: util.Map[Integer, util.Map[Integer, String]], responseCount: Integer)
+
+@layouts.mainLayout("Responses", responseCount) {
+    <div class="container">
+        <table id="responseTable" class="table table-striped table-bordered">
+            <thead class="table-head">
+                <tr>
+                @for(field <- fields) {
+                    <th id="@field.getId" style="min-width : 10 px ; max-width : 900 px ; width : auto ; white-space : nowrap ;">@field.getLabel</th>
+                }
+                </tr>
+            </thead>
+            <tbody>
+                @for(response <- responses) {
+                    <tr>
+                        @for(field <- fields) {
+                            <td>@if(map.get(response.getId).get(field.getId)== null) {N/A} else{@map.get(response.getId).get(field.getId)}</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

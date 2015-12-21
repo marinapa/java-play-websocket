@@ -1,0 +1,65 @@
+@(title: String, count: Integer)(content: Html)
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("bootstrap-3.3.6-dist/css/bootstrap.min.css")'>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="@routes.Assets.at("javascripts/jquery-1.11.3.min.js")" type="text/javascript"></script>
+        <script src='@routes.Assets.at("javascripts/jquery-ui-1.11.4/jquery-ui.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("bootstrap-3.3.6-dist/js/bootstrap.min.js")' type="text/javascript"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="@controllers.routes.Application.jsRoutes()" type="text/javascript"></script>
+        <script src='@routes.Assets.at("javascripts/renderData.js")' type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav pull-left">
+                        <li>
+                            <a href="@routes.FieldController.fieldList()">Fields</a>
+                        </li>
+                    </ul>
+                    <ul class="nav pull-left">
+                        <li >
+                            <a id="responseLinkId" href="@routes.ResponseController.responses()">
+                                <i class="icon-list icon-white"></i>Responses(@count)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+         var ws;
+            $(function() {
+                var WS = window.MozWebSocket ? MozWebSocket : WebSocket;
+                ws = new WS("@routes.Application.socket().webSocketURL(request)");
+                ws.onmessage = function(evt) { onMessage(evt) };
+                function onMessage(evt) {
+                    var data = JSON.parse(evt.data);
+                    // update response number
+                    $("#responseLinkId").empty();
+                    $("#responseLinkId").append("Responses(" + data.count + ")");
+
+                    var thArray = [];
+                     var row = "<tr>";
+                    $('#responseTable > thead > tr > th').each(function(){
+                        var id = $(this)[0].id;
+                        thArray.push(id);
+                         row += "<td>" + data[id] + "</td>";
+                    });
+                   row += "</tr>";
+                   // update table
+                    $('#responseTable > tbody:last-child').append(row);
+                    var table = $("#responseTable").val();
+                }
+            });
+        </script>
+
+        @content
+    </body>
+</html>

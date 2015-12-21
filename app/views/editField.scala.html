@@ -1,0 +1,63 @@
+@import models.entities
+@(id: Integer, fieldForm: Form[entities.Field], field: entities.Field, responseCount: Integer)
+@import helper._
+@implicitField = @{
+    FieldConstructor(fields.twoColumns.f)
+}
+
+@layouts.mainLayout("Create new Field", responseCount) {
+    <div class="input-content">
+    @helper.form(action = routes.FieldController.editField(id), 'id -> "fieldFormEdit") {
+
+        @inputText(fieldForm("label"), args =
+                '_label -> "Label*:",
+            'size -> 50,
+            'placeholder -> "",
+            'class -> "required",
+            'minlength -> "3",
+            'id -> "fieldLabelId"
+        )
+
+        @select(fieldForm("type"), options((Type.SINGLE_LINE_TEXT.name(), Type.SINGLE_LINE_TEXT.getValue),
+            (Type.MULTI_LINE_TEXT.name(), Type.MULTI_LINE_TEXT.getValue),
+            (Type.RADIO_BUTTON.name(), Type.RADIO_BUTTON.getValue),
+            (Type.CHECK_BOX.name(), Type.CHECK_BOX.getValue),
+            (Type.COMBO_BOX.name(), Type.COMBO_BOX.getValue),
+            (Type.DATE.name(), Type.DATE.getValue)), args =
+            '_label -> "Type*:",
+            'class -> "required",
+            'id -> "fieldTypeId"
+        )
+
+        <div id="fieldOptions" hidden>
+            @textarea(field = fieldForm("fieldItemString"), args =
+                    '_label -> "Optians*:",
+                'placeholder -> "Any notes you want to add",
+                'cols -> 1,
+                'class -> "required",
+                'id -> "fieldItemsId"
+            )
+        </div>
+
+        @checkbox(field = fieldForm("required"), args =
+                '_label -> "Required",
+            'id -> "fieldRequiredId"
+
+        )
+
+        @checkbox(field = fieldForm("alive"), args =
+                '_label -> "Is Alive",
+            'id -> "fieldAliveId"
+        )
+
+        <div class="row">
+            <div class="span8 offset2">
+                <input id="editFieldId" data-id="@id" type="submit" value="Save" class="btn">
+                <a href="@routes.FieldController.fieldList()" class="btn">Cancel</a>
+            </div>
+        </div>
+
+    }
+    </div>
+}
+
