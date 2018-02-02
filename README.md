@@ -1,4 +1,4 @@
-Data collection service
+#Data collection service
 
 Application collects and stores user data into DB.
 User can add new field, modify or delete existing one.
